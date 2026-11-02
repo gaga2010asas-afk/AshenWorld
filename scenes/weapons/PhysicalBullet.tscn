@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/PhysicalBullet.gd" id="1_bullet"]
+
+[node name="PhysicalBullet" type="Area3D"]
+collision_layer = 0
+collision_mask = 3
+script = ExtResource("1_bullet")

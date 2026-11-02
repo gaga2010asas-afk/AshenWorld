@@ -1,0 +1,257 @@
+[gd_scene load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/actors/Player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/actors/WeaponHolder.gd" id="2_weapon"]
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="3_hud"]
+[ext_resource type="Script" path="res://scripts/ui/Crosshair.gd" id="4_cross"]
+[ext_resource type="Script" path="res://scripts/ui/Radar.gd" id="5_radar"]
+[ext_resource type="Script" path="res://scripts/ui/HitIndicator.gd" id="6_hit"]
+[ext_resource type="Material" path="res://materials/metal.tres" id="7_metal"]
+[ext_resource type="Material" path="res://materials/rust.tres" id="8_rust"]
+[ext_resource type="Material" path="res://materials/accent.tres" id="9_accent"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.4
+height = 1.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_Torso"]
+size = Vector3(0.6, 0.7, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Limb"]
+size = Vector3(0.2, 0.6, 0.2)
+
+[sub_resource type="SphereMesh" id="SphereMesh_Head"]
+radius = 0.22
+
+[sub_resource type="BoxMesh" id="BoxMesh_Visor"]
+size = Vector3(0.3, 0.08, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Shoulder"]
+size = Vector3(0.25, 0.15, 0.3)
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Body" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+
+[node name="TorsoMesh" type="MeshInstance3D" parent="Body"]
+mesh = SubResource("BoxMesh_Torso")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="ChestArmor" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, -0.1)
+mesh = SubResource("BoxMesh_Torso")
+surface_material_override/0 = ExtResource("8_rust")
+
+[node name="ShoulderL" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.25, 0)
+mesh = SubResource("BoxMesh_Shoulder")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="ShoulderR" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.25, 0)
+mesh = SubResource("BoxMesh_Shoulder")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="Legs" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.35, 0)
+
+[node name="LegLeft" type="Node3D" parent="Body/Legs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Body/Legs/LegLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("BoxMesh_Limb")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="LegRight" type="Node3D" parent="Body/Legs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0, 0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Body/Legs/LegRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("BoxMesh_Limb")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+
+[node name="HeadMesh" type="MeshInstance3D" parent="Head"]
+mesh = SubResource("SphereMesh_Head")
+surface_material_override/0 = ExtResource("7_metal")
+
+[node name="Visor" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.18)
+mesh = SubResource("BoxMesh_Visor")
+surface_material_override/0 = ExtResource("9_accent")
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+current = true
+
+[node name="Flashlight" type="SpotLight3D" parent="Head/Camera3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+light_color = Color(1, 0.9, 0.8, 1)
+light_energy = 12.0
+spot_range = 60.0
+spot_angle = 50.0
+visible = false
+
+[node name="WeaponHolder" type="Node3D" parent="Head/Camera3D"]
+script = ExtResource("2_weapon")
+
+[node name="Model" type="Node3D" parent="Head/Camera3D/WeaponHolder"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, -0.15, -0.4)
+
+[node name="MuzzleFlash" type="OmniLight3D" parent="Head/Camera3D/WeaponHolder/Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, -0.5)
+light_color = Color(1, 0.6, 0.2, 1)
+light_energy = 2.0
+omni_range = 5.0
+visible = false
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("3_hud")
+
+[node name="Crosshair" type="Control" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("4_cross")
+
+[node name="HitIndicator" type="Control" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("6_hit")
+
+[node name="Radar" type="Control" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -180.0
+offset_right = 180.0
+offset_bottom = -20.0
+grow_vertical = 0
+script = ExtResource("5_radar")
+
+[node name="HealthContainer" type="VBoxContainer" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -180.0
+offset_right = 400.0
+offset_bottom = -20.0
+grow_vertical = 0
+
+[node name="HPText" type="Label" parent="HUD/HealthContainer"]
+layout_mode = 2
+text = "100 HP"
+theme_override_font_sizes/font_size = 20
+
+[node name="HPBar" type="ProgressBar" parent="HUD/HealthContainer"]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+custom_minimum_size = Vector2(0, 15)
+
+[node name="ArmorBar" type="ProgressBar" parent="HUD/HealthContainer"]
+layout_mode = 2
+value = 50.0
+show_percentage = false
+custom_minimum_size = Vector2(0, 15)
+
+[node name="EnergyBar" type="ProgressBar" parent="HUD/HealthContainer"]
+layout_mode = 2
+value = 100.0
+show_percentage = false
+custom_minimum_size = Vector2(0, 10)
+
+[node name="SuitLabel" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -220.0
+offset_right = 400.0
+offset_bottom = -190.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+text = "КОСТЮМ: БРОНЯ"
+
+[node name="MoneyLabel" type="Label" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 2
+
+[node name="WaveLabel" type="Label" parent="HUD"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 30.0
+offset_right = 200.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+
+[node name="WeaponSlots" type="VBoxContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -150.0
+offset_top = -320.0
+offset_right = -40.0
+offset_bottom = -230.0
+alignment = 2
+
+[node name="AmmoContainer" type="VBoxContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -180.0
+offset_right = -40.0
+offset_bottom = -20.0
+alignment = 2
+
+[node name="WeaponName" type="Label" parent="HUD/AmmoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 2
+text = "RIFLE"
+
+[node name="AmmoLabel" type="Label" parent="HUD/AmmoContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 2
+text = "30"
+
+[node name="DamageFlash" type="ColorRect" parent="HUD"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(1, 0, 0, 1)

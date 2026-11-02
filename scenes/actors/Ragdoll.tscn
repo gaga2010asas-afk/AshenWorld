@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/weapons/Ragdoll.gd" id="1_rag"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.35
+height = 1.6
+
+[sub_resource type="BoxMesh" id="BoxMesh_Torso"]
+size = Vector3(0.6, 0.7, 0.4)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Head"]
+size = Vector3(0.3, 0.25, 0.3)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Visor"]
+size = Vector3(0.2, 0.05, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Arm"]
+size = Vector3(0.15, 0.6, 0.15)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Leg"]
+size = Vector3(0.18, 0.7, 0.18)
+
+[sub_resource type="BoxMesh" id="BoxMesh_Shoulder"]
+size = Vector3(0.2, 0.2, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Body"]
+albedo_color = Color(0.3, 0.3, 0.35, 1)
+roughness = 0.7
+metallic = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_Visor"]
+albedo_color = Color(1, 0.2, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.2, 0, 1)
+emission_energy_multiplier = 2.0
+
+[node name="Ragdoll" type="RigidBody3D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_rag")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="Torso" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+mesh = SubResource("BoxMesh_Torso")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+mesh = SubResource("BoxMesh_Head")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="Visor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.42, -0.16)
+mesh = SubResource("BoxMesh_Visor")
+surface_material_override/0 = SubResource("Mat_Visor")
+
+[node name="ShoulderL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 1.1, 0)
+mesh = SubResource("BoxMesh_Shoulder")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="ShoulderR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 1.1, 0)
+mesh = SubResource("BoxMesh_Shoulder")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="ArmL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.35, 0.9, 0)
+mesh = SubResource("BoxMesh_Arm")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="ArmR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.9, 0)
+mesh = SubResource("BoxMesh_Arm")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="LegL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0.2, 0)
+mesh = SubResource("BoxMesh_Leg")
+surface_material_override/0 = SubResource("Mat_Body")
+
+[node name="LegR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.2, 0)
+mesh = SubResource("BoxMesh_Leg")
+surface_material_override/0 = SubResource("Mat_Body")

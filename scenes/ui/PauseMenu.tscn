@@ -1,0 +1,169 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/PauseMenu.gd" id="1_pause"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.02, 0.05, 0.08, 0.95)
+border_width_all = 2
+border_color = Color(0, 0.8, 1, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.02, 0.05, 0.1, 0.9)
+border_width_left = 6
+border_color = Color(0, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0, 0.4, 0.6, 0.4)
+border_width_left = 10
+border_color = Color(0, 1, 1, 1)
+
+[node name="PauseMenu" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_pause")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="Panel/VBox"]
+layout_mode = 2
+text = "ПАУЗА"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+
+[node name="BtnResume" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "  > ПРОДОЛЖИТЬ"
+alignment = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="BtnSettings" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "  > НАСТРОЙКИ"
+alignment = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="BtnMenu" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "  > В ГЛАВНОЕ МЕНЮ"
+alignment = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="BtnQuit" type="Button" parent="Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 50)
+text = "  > ВЫХОД"
+alignment = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+
+[node name="SettingsPanel" type="VBoxContainer" parent="Panel"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = -30.0
+offset_bottom = -30.0
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="Panel/SettingsPanel"]
+layout_mode = 2
+text = "НАСТРОЙКИ"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0, 1, 1, 1)
+
+[node name="TabContainer" type="TabContainer" parent="Panel/SettingsPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Game" type="VBoxContainer" parent="Panel/SettingsPanel/TabContainer"]
+layout_mode = 2
+
+[node name="LabelSens" type="Label" parent="Panel/SettingsPanel/TabContainer/Game"]
+layout_mode = 2
+text = "Чувствительность:"
+
+[node name="SliderSens" type="HSlider" parent="Panel/SettingsPanel/TabContainer/Game"]
+layout_mode = 2
+min_value = 0.1
+max_value = 2.0
+step = 0.05
+
+[node name="Graphics" type="VBoxContainer" parent="Panel/SettingsPanel/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="LabelWindow" type="Label" parent="Panel/SettingsPanel/TabContainer/Graphics"]
+layout_mode = 2
+text = "Режим окна:"
+
+[node name="OptWindow" type="OptionButton" parent="Panel/SettingsPanel/TabContainer/Graphics"]
+layout_mode = 2
+item_count = 2
+popup/item_0/text = "Оконный"
+popup/item_1/text = "Полноэкранный"
+
+[node name="Sound" type="VBoxContainer" parent="Panel/SettingsPanel/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="LabelVolMaster" type="Label" parent="Panel/SettingsPanel/TabContainer/Sound"]
+layout_mode = 2
+text = "Общая громкость:"
+
+[node name="SliderVolMaster" type="HSlider" parent="Panel/SettingsPanel/TabContainer/Sound"]
+layout_mode = 2
+max_value = 100.0
+
+[node name="Controls" type="VBoxContainer" parent="Panel/SettingsPanel/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Panel/SettingsPanel/TabContainer/Controls"]
+layout_mode = 2
+text = "В РАЗРАБОТКЕ"
+
+[node name="HBox" type="HBoxContainer" parent="Panel/SettingsPanel"]
+layout_mode = 2
+alignment = 2
+
+[node name="BtnClose" type="Button" parent="Panel/SettingsPanel/HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(150, 45)
+text = "НАЗАД"
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
